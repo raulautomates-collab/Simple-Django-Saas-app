@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing | Adaline Style</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-deep: #161E54;      /* Navy */
+            --color-muted: #161E54;     /* Navy */
+            --color-accent: #F16D34;    /* Orange */
+            --color-soft-accent: #FF986A; /* Peach */
+            --color-bg-light: #BBE0EF;  /* Soft Blue */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-bg-light);
+            color: var(--color-deep);
+        }
+
+        .font-mono-custom {
+            font-family: 'Fragment Mono', monospace;
+        }
+
+        .pricing-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(22, 30, 84, 0.1);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--color-accent);
+            box-shadow: 0 20px 25px -5px rgba(22, 30, 84, 0.1);
+        }
+
+        .check-icon {
+            color: var(--color-accent);
+        }
+
+        .btn-primary {
+            background-color: var(--color-accent);
+            color: white;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-deep);
+        }
+
+        .btn-secondary {
+            border: 2px solid var(--color-deep);
+            color: var(--color-deep);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--color-deep);
+            color: white;
+        }
+    </style>
+</head>
+<body class="antialiased py-12">
+    <div class="text-center mb-8">
+        <h2 class="font-mono-custom text-sm uppercase tracking-widest text-[#161E54]/70 mb-4">Pricing</h2>
+        <h1 class="text-4xl md:text-5xl font-semibold text-[#161E54] tracking-tight mb-6">
+            Simple, transparent pricing.
+        </h1>
+        <p class="text-lg text-[#161E54]/80 max-w-2xl mx-auto">
+            Choose the plan that works best for your team and start building today.
+        </p>
+    </div>
+
+    <!--Pill tabs toggle -->
+    <div class="flex justify-center mb-12">
+        <div class="bg-[#161E54]/10 p-1.5 rounded-2xl inline-flex items-center">
+            <ul class="flex flex-wrap text-sm font-medium text-center">
+                <li class="mr-1">
+                    <a href="{{ monthly_url }}" 
+                       class="inline-block px-6 py-2.5 rounded-xl font-mono-custom uppercase tracking-wider transition-all duration-200 
+                       {% if active == 'month' %} 
+                            bg-[#F16D34] text-white shadow-sm 
+                       {% else %} 
+                            text-[#161E54]/70 hover:text-[#161E54] hover:bg-white/50 
+                       {% endif %}">
+                       Monthly
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ yearly_url }}" 
+                       class="inline-block px-6 py-2.5 rounded-xl font-mono-custom uppercase tracking-wider transition-all duration-200 
+                       {% if active == 'year' %} 
+                            bg-[#F16D34] text-white shadow-sm 
+                       {% else %} 
+                            text-[#161E54]/70 hover:text-[#161E54] hover:bg-white/50 
+                       {% endif %}">
+                       Yearly
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <section class="max-w-7xl mx-auto px-4">
+        <div class="grid md:grid-cols-3 gap-8">
+            {% for sub in object_list %}
+            <div class="pricing-card rounded-2xl p-8 flex flex-col bg-white">
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold mb-2 font-mono-custom text-[#161E54]">{{ sub.subscription }}</h3>
+                    <p class="text-sm text-[#161E54]/70">Perfect for individuals and side projects.</p>
+                </div>
+                <div class="mb-8">
+                    <div class="flex items-baseline">
+                        <span class="text-4xl font-bold tracking-tight text-[#161E54]">${{ sub.price }}</span>
+                        <span class="text-[#161E54]/60 ml-1">/{{ sub.pricing_interval }}</span>
+                    </div>
+                </div>
+                <ul class="space-y-4 mb-8 flex-grow">
+                    {% for feature in sub.display_features %} 
+                    <li class="flex items-center text-sm text-[#161E54]">
+                        <svg class="w-5 h-5 mr-3 check-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        {{ feature }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                <a href="{{sub.get_mycheckout_url}}" class="btn-secondary text-center py-3 rounded-xl font-bold transition-all">
+                    Select plan
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-24 text-center">
+            <p class="text-[#161E54]/80 text-sm">
+                Questions? <a href="#" class="underline font-bold text-[#F16D34]">Chat with our team</a> or check out our <a href="#" class="underline font-bold text-[#F16D34]">Help Center</a>.
+            </p>
+        </div>
+    </section>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bignyash AI - Modern SaaS</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
+
+    <style type="text/tailwindcss">
+        @theme {
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'Fragment Mono', monospace;
+            
+            --color-brand-navy: #161E54;
+            --color-brand-blue-light: #BBE0EF;
+            --color-brand-orange: #F16D34;
+            --color-brand-orange-light: #FF986A;
+        }
+
+        body {
+            @apply font-sans bg-white text-brand-navy;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #161E54 0%, #24338a 100%);
+        }
+        
+        .mono-tag {
+            @apply font-mono text-[10px] uppercase tracking-widest px-2 py-1 rounded bg-brand-orange/10 text-brand-orange border border-brand-orange/20;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Nav -->
+    <nav class="border-b border-brand-blue-light/30 py-4">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div class="text-2xl font-black tracking-tighter text-brand-navy flex items-center gap-2">
+                <div class="w-8 h-8 bg-brand-orange rounded-lg"></div>
+                BIGNYASH
+            </div>
+            <div class="hidden md:flex gap-8 font-medium">
+                <a href="#" class="hover:text-brand-orange transition-colors">Platform</a>
+                <a href="#" class="hover:text-brand-orange transition-colors">Solutions</a>
+                <a href="#pricing" class="hover:text-brand-orange transition-colors">Pricing</a>
+            </div>
+            <button class="bg-brand-navy text-white px-5 py-2 rounded-full font-semibold hover:bg-brand-orange transition-all duration-300">
+                Get Started
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white py-24 overflow-hidden relative">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <div class="z-10">
+                <span class="mono-tag bg-white/10 text-brand-orange-light border-white/20 mb-6 inline-block">v2.0 AI Core Launched</span>
+                <h1 class="text-5xl md:text-7xl font-extrabold leading-[1.1] mb-6 tracking-tight">
+                    Intelligence that scales with <span class="text-brand-orange-light">your ambition.</span>
+                </h1>
+                <p class="text-lg text-brand-blue-light mb-8 max-w-lg leading-relaxed">
+                    Deploy world-class AI agents in minutes. Streamline your workflow, automate support, and unlock insights at the speed of thought.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <button class="bg-brand-orange hover:bg-brand-orange-light text-white px-8 py-4 rounded-xl font-bold transition-all transform hover:-translate-y-1">
+                        Start Free Trial
+                    </button>
+                    <button class="border border-white/30 hover:bg-white/10 text-white px-8 py-4 rounded-xl font-bold transition-all">
+                        Watch Demo
+                    </button>
+                </div>
+            </div>
+            <div class="relative">
+                <div class="absolute -inset-4 bg-brand-orange/20 blur-3xl rounded-full"></div>
+                <div class="bg-white/5 border border-white/10 backdrop-blur-sm p-8 rounded-3xl shadow-2xl">
+                    <div class="flex gap-2 mb-6">
+                        <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                    </div>
+                    <div class="font-mono text-sm text-brand-blue-light space-y-3">
+                        <p class="text-brand-orange-light">> Initializing neural network...</p>
+                        <p>> Connecting to global datastore...</p>
+                        <p class="text-green-400">> 102.4 Gflops optimized.</p>
+                        <p>> Deployment successful.</p>
+                        <div class="h-40 bg-brand-navy/50 rounded mt-4 border border-white/5 animate-pulse"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<P>{{subscription}}</p>
+    {{checkout}}
+    
+    <!-- Footer -->
+    <footer class="bg-brand-navy text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <div class="md:col-span-2">
+                    <div class="text-2xl font-black tracking-tighter mb-6 flex items-center gap-2">
+                        <div class="w-6 h-6 bg-brand-orange rounded"></div>
+                        BIGNYASH
+                    </div>
+                    <p class="text-brand-blue-light/60 max-w-sm">
+                        Building the future of artificial intelligence. We empower teams to achieve more with autonomous agents and predictive modeling.
+                    </p>
+                </div>
+                <div>
+                    <h6 class="font-bold mb-6 text-brand-orange-light">Quick Links</h6>
+                    <ul class="space-y-4 text-sm text-brand-blue-light/80">
+                        <li><a href="accounts/email/" class="hover:text-white transition-colors">Change email</a></li>
+                        <li><a href="accounts/logout" class="hover:text-white transition-colors">Logout</a></li>
+                        <li><a href="base/" class="hover:text-white transition-colors">View page visits</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h6 class="font-bold mb-6 text-brand-orange-light">Resources</h6>
+                    <ul class="space-y-4 text-sm text-brand-blue-light/80">
+                        <li><a href="profiles/list" class="hover:text-white transition-colors">View users</a></li>
+                        <li><a href="profiles/marvel" class="hover:text-white transition-colors">Marvel page</a></li>
+                        <li><a href="subs/pricing" class="hover:text-white transition-colors">Pricing Details</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-mono text-brand-blue-light/40 uppercase tracking-widest">
+                <p>Copyright © Bignyash Enterprises all rights reserved 2026</p>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-brand-orange transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-brand-orange transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+</body>
+</html>

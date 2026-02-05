@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>listing page</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Ewert&family=Pinyon+Script&display=swap" rel="stylesheet">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@700&family=Raleway:wght@400;500;600;700;800&display=swap');
+*{
+  margin:0;
+  padding:0;
+  font-family:'Raleway', serif;
+}
+h2{
+  font-family:'Open Sans Condensed', sans-serif;
+  font-size:4rem;
+}
+#container{
+  height:100vh;
+  width:100vw;
+  background-color:#F2EBDD;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.card{
+  margin:0 30px;
+  height:500px;
+  width:250px;
+  background-color:#fff;
+  border:5px solid black;
+  box-shadow:0 0 0 7px #fff,0 0  8px 5px #000;
+}
+.card-image{
+  position:relative;
+  width:100%;
+  border-bottom:5px solid #000;
+  z-index:1;
+}
+.card-image>img{
+  position:absolute;
+  z-index:2;
+  height:100%;
+}
+#hulk>.card-image{
+  height:55%;
+  background-color:#FFDD33;
+}
+#hulk>.card-image>img{
+  width:150%;
+  height:100%;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+#hulk h2{
+  color:#59C887;
+  letter-spacing:-5px; 
+  line-height: 50px;
+  text-align:center;
+  margin-top:10px;
+}
+#hulk p{
+  font-size:2rem;
+  line-height:30px;
+  font-weight:500;
+  text-align:center;
+}
+#hulk>.card-text{
+  height:45%;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.card-text>div{
+  display:flex;
+  justify-content:space-between;
+}
+#hulk>.card-text>div>div:first-child{
+  display:flex;
+  align-items:center;
+  padding:0 20px;
+}
+#hulk>.card-text>div>div:first-child>span:first-child{
+ font-size:4rem;
+  font-weight:800;
+}
+#hulk>.card-text>div>div:first-child>span:last-child{
+  font-size:2rem;
+  font-weight:600;
+}
+#hulk>.card-text>div>div:last-child{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  border:5px solid black;
+  border-right:none;
+  border-bottom:none;
+  padding:10px 20px;
+}
+#hulk>.card-text>div>div:last-child>span:first-child{
+  font-size:2rem;
+  font-weight:bold;
+}
+#hulk>.card-text>div>div:last-child>span:last-child{
+  font-weight:500;
+}
+#spiderman>.card-image{
+  height:72%;
+  background-color:#5CAAB4;
+}
+#spiderman>.card-image>img{
+  width:130%;
+  height:90%;
+  margin-top:20px;
+  margin-left:-30px;
+}
+#spiderman h2{
+  font-size:3rem;
+  letter-spacing:15px;
+  text-align:center;
+  margin-left:10px;
+  color:#2E5579;
+}
+#spiderman>.card-text>div{
+  display:flex;
+  justify-content:space-between;
+  padding:10px;
+  padding-top:5px;
+}
+#spiderman>.card-text>div>div:first-child{
+  display:flex;
+  flex-direction:column;
+}
+#spiderman>.card-text>div>div:first-child>span{
+  font-size:1.5rem;
+  line-height:30px;
+  font-weight:500;
+}
+#spiderman>.card-text>div>div:last-child{
+  display:flex;
+}
+#spiderman>.card-text>div>div:last-child>span:first-child{
+  font-size:5rem;
+  font-weight:800;
+    line-height:60px;
+}
+
+#spiderman>.card-text>div>div:last-child>span:last-child{
+  font-weight:600;
+  font-size:1.3rem;
+}
+#deadpool>.card-image{
+  height:calc(80% - 5px);
+  background-color:#A01F29;
+  border-top:5px solid black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+}
+#deadpool img{
+  height:90%;
+}
+#deadpool>.card-text{
+  display:flex;
+  justify-content:center;
+  height:20%;
+}
+#deadpool>.card-text>div{
+  width:100%;
+}
+#deadpool>.card-text>div:last-child{
+  border-left:3px solid black;
+}
+#deadpool>.card-text>div:first-child{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+#deadpool>.card-text>div:first-child>span:first-child{
+  font-size:4rem;
+  font-weight:800;
+}
+#deadpool>.card-text>div:first-child>span:last-child{
+  font-size:1.5rem;
+  font-weight:600;
+}
+#deadpool>.card-text>div:last-child{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+#deadpool>.card-text>div:last-child>span:first-child{
+  font-size: 3rem;
+   font-weight: 600;
+    margin-bottom:3px;
+}
+#deadpool>.card-text>div:last-child>span:nth-of-type(2){
+  font-size:1.3rem;
+  font-weight:500;
+}
+#deadpool>.card-text>div:last-child>span:last-child{
+  font-size:1.2rem;
+  margin-bottom:10px;
+}
+#deadpool>.card-image p{
+  position:absolute;
+  top:10px;
+  left:10px;
+  z-index:3;
+  font-weight:600;
+  color:#fff;
+}
+    </style>
+
+<body>
+
+
+<div id="container">
+  <div class="card" id="hulk">
+    <div class="card-image">
+      <img src="https://res.cloudinary.com/dsgvp2wmj/image/upload/v1636769866/466-4665707_hulk-png-avengers-earths-mightiest-heroes-hulk-transparent-removebg-preview_hxdclj.png"/>
+    </div>
+    <div class="card-text">
+      <h2>MARVEL</h2>
+      <p>COMICS<br>GROUP</p>
+      <div>
+      <div>
+        <span>15</span>
+        <span>&cent;</span>
+
+        </div>
+      <div><span>27</span><span>May</span></div>
+    </div>
+      </div>
+  </div>
+  <div class="card" id="spiderman">
+    <div class="card-image">
+      <img src="https://pngimg.com/uploads/spider_man/spider_man_PNG59.png"/>
+    </div>
+    <div class="card-text">
+      <h2>MARVEL</h2>
+
+      <div>
+      <div>
+        <span>COMICS</span>
+        <span>GROUP</span>
+
+        </div>
+      <div><span>12</span><span>&cent;</span></div>
+    </div>
+      </div>
+  </div>
+  <div class="card" id="deadpool">
+    <div class="card-text">
+      <div><span>40</span><span>&cent;</span></div>
+      <div>
+        <span>29</span>
+        <span>JAN</span>
+        <span>02461</span>
+      </div>
+    </div>
+    <div class="card-image">
+      <p>&copy; 1979 Marvel <br>Comics Group</p>
+      <img src="https://www.pngkey.com/png/full/82-824923_deadpool-deadpool-marvel-comics.png"/>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

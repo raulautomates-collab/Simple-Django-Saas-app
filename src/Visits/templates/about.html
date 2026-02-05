@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Squares - Modern UI</title>
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --color-1: #EA7B7B;
+            --color-2: #D25353;
+            --color-3: #9E3B3B;
+            --color-4: #FFEAD3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        ul {
+            list-style: none;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        ul li {
+            width: 25px;
+            height: 25px;
+            margin: 8px;
+            border-radius: 4px; /* Subtle rounding for modern UI */
+            opacity: 0;
+            animation: pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes pop {
+            from { opacity: 0; transform: scale(0); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Applying the new palette across the classes */
+        .one, .five, .nine { background: var(--color-1); animation-delay: 0.1s; }
+        .two, .six { background: var(--color-2); animation-delay: 0.2s; }
+        .three, .seven { background: var(--color-3); animation-delay: 0.3s; }
+        .four, .eight { background: var(--color-4); animation-delay: 0.4s; }
+
+        /* Secondary delays for visual flow */
+        ul li:nth-child(n+4) { animation-delay: 0.5s; opacity: 0; background: rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+    <div id="center">
+        <ul>
+            <li class="one"></li><li class="one"></li><li class="one"></li>
+            <li></li><li></li><li></li><li></li><li></li>
+        </ul>
+        <ul>
+            <li class="two"></li><li class="two"></li><li class="two"></li>
+            <li class="two"></li><li class="two"></li><li></li><li></li>
+        </ul>
+        <ul>
+            <li class="three"></li><li class="three"></li><li class="three"></li>
+            <li class="three"></li><li class="three"></li><li class="three"></li>
+        </ul>
+        <ul>
+            <li class="four"></li><li class="four"></li><li class="four"></li>
+            <li class="four"></li><li class="four"></li><li class="four"></li>
+        </ul>
+        <ul>
+            <li class="five"></li><li class="five"></li><li class="five"></li>
+            <li class="five"></li><li class="five"></li><li class="five"></li>
+        </ul>
+        <ul>
+            <li class="six"></li><li class="six"></li><li class="six"></li>
+            <li class="six"></li><li class="six"></li><li></li><li></li>
+        </ul>
+        <ul>
+            <li class="seven"></li><li class="seven"></li><li class="seven"></li>
+            <li></li><li></li><li></li><li></li><li></li>
+        </ul>
+    </div>
+
+    
+</body>
+</html>

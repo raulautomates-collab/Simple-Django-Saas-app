@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>base page</title>
+    <style>
+      *, *::before, *::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+  background-color: #000;
+  color: #fff;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  perspective: 800px;
+  overflow: clip;
+  
+  * {
+    transform-style: preserve-3d;
+  }
+}
+
+.scene {
+  position: relative;
+  font-size: 10px;
+  animation:
+    sceneR 27s -0s infinite linear,
+    sceneT 10s -7.8s infinite ease-in-out;
+  
+  * { position: absolute; }
+}
+
+@keyframes sceneR {
+  from { transform: rotateZ(360deg) rotateX(-20deg) rotateZ(0deg); }
+  to { transform: rotateZ(0deg) rotateX(-20deg) rotateZ(360deg); }
+}
+@keyframes sceneT {
+  0%, 41%, 59%, 100% { translate: 0 1em; }
+  6%, 47%, 65% { translate: 0 -1em; }
+}
+
+.wing {
+  inset: -1em -3em;
+  border-radius: 1em;
+  transform: translateZ(calc(var(--w) * 0.5em)) rotateY(calc(var(--odd, 0) * 180deg));
+  background-image: linear-gradient(#def, #012);
+
+  i {
+    left: 100%; top: calc(50% - 1em);
+    width: 80%; height: 2em;
+    background-image: inherit;
+    border-radius: inherit;
+    transform-origin: left;
+    animation: wing 10s calc(var(--i) * 0.15s - 8s) infinite ease-in-out;
+  }
+
+  & > i {
+    width: 3em;
+    rotate: y calc((var(--w) - 11.5) * var(--odd, 1) * 1deg);
+    
+    --i: 0;
+    & > i { --i: 1; width: 5em; }
+    & > i > i { --i: 2; }
+    & > i > i > i { --i: 3; }
+    & > i > i > i > i { --i: 4; }
+    & > i > i > i > i > i{ --i: 5; }
+  }
+  
+  &:nth-child(odd) {
+    --odd: -1;
+  }
+}
+
+@keyframes wing {
+  0%, 41%, 59%, 100% { transform: rotateZ(-10deg) translateX(1em); }
+  6%, 47%, 65% { transform: rotateZ(10deg) translateX(1em); }
+}
+    </style>
+    <body>
+<div class="scene">
+    <div class="wing" style="--w: 0;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 0;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 1;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 1;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 2;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 2;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 3;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 3;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 4;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 4;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 5;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 5;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 6;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 6;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 7;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 7;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 8;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 8;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 9;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 9;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 10;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 10;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 11;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 11;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 12;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 12;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 13;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 13;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 14;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 14;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 15;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 15;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 16;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 16;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 17;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 17;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 18;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 18;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 19;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 19;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 20;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 20;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 21;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 21;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 22;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 22;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 23;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+    <div class="wing" style="--w: 23;"><i><i><i><i><i><i></i></i></i></i></i></i></div>
+  
+</div>
+
+
+    </body>
+    </html>

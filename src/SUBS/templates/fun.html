@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing | Adaline Style</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-deep: #27374D;
+            --color-muted-blue: #526D82;
+            --color-light-blue: #9DB2BF;
+            --color-soft: #DDE6ED;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fcfcfc;
+            color: var(--color-deep);
+        }
+
+        .font-mono-custom {
+            font-family: 'Fragment Mono', monospace;
+        }
+
+        .pricing-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--color-soft);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--color-light-blue);
+            box-shadow: 0 20px 25px -5px rgba(39, 55, 77, 0.05);
+        }
+
+        .pro-badge {
+            background-color: var(--color-deep);
+            color: var(--color-soft);
+        }
+
+        .toggle-btn {
+            background-color: var(--color-soft);
+            color: var(--color-muted-blue);
+        }
+
+        .toggle-btn.active {
+            background-color: white;
+            color: var(--color-deep);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .check-icon {
+            color: var(--color-muted-blue);
+        }
+
+        .btn-primary {
+            background-color: var(--color-deep);
+            color: white;
+            transition: opacity 0.2s;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            border: 1px solid var(--color-soft);
+            color: var(--color-deep);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--color-soft);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Pricing Section -->
+    <section class="py-20 px-6 max-w-7xl mx-auto">
+        
+        <!-- Header -->
+        <div class="text-center mb-16">
+            <h2 class="font-mono-custom text-sm uppercase tracking-widest text-[#526D82] mb-4">Pricing</h2>
+            <h1 class="text-4xl md:text-5xl font-semibold text-[#27374D] tracking-tight mb-6">
+                Simple, transparent pricing.
+            </h1>
+            <p class="text-lg text-[#526D82] max-w-2xl mx-auto">
+                Choose the plan that works best for your team and start building today.
+            </p>
+
+            <!-- Billing Toggle -->
+            <div class="mt-10 flex items-center justify-center space-x-4">
+                <span class="text-sm font-medium text-[#526D82]">Monthly</span>
+                <div class="p-1 rounded-full bg-[#DDE6ED] flex w-48 h-10 relative cursor-pointer" onclick="toggleBilling()">
+                    <div id="toggle-slider" class="absolute top-1 left-1 bg-white w-[calc(50%-4px)] h-8 rounded-full shadow-sm transition-all duration-300 transform translate-x-0"></div>
+                    <button id="monthly-btn" class="relative z-10 w-1/2 text-sm font-semibold text-[#27374D]">Monthly</button>
+                    <button id="yearly-btn" class="relative z-10 w-1/2 text-sm font-semibold text-[#526D82]">Yearly</button>
+                </div>
+                <span class="text-sm font-medium text-[#526D82] flex items-center">
+                    Yearly <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#9DB2BF] text-white">Save 20%</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Pricing Grid -->
+        <div class="grid md:grid-cols-3 gap-8 pricing-grid">
+            {% block content %}
+            <!-- Free Plan -->
+            <div class="pricing-card rounded-2xl p-8 flex flex-col bg-white">
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold mb-2">Starter</h3>
+                    <p class="text-sm text-[#526D82]">Perfect for individuals and side projects.</p>
+                </div>
+                <div class="mb-8">
+                    <div class="flex items-baseline">
+                        <span class="text-4xl font-bold tracking-tight">$0</span>
+                        <span class="text-[#526D82] ml-1">/mo</span>
+                    </div>
+                </div>
+                <ul class="space-y-4 mb-8 flex-grow">
+                    <li class="flex items-center text-sm text-[#27374D]">
+                        <svg class="w-5 h-5 mr-3 check-icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                        Up to 3 projects
+                    </li>
+                    <li class="flex items-center text-sm text-[#27374D]">
+                        <svg class="w-5 h-5 mr-3 check-icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                        Basic analytics
+                    </li>
+                    <li class="flex items-center text-sm text-[#27374D]">
+                        <svg class="w-5 h-5 mr-3 check-icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                        Community support
+                    </li>
+                </ul>
+                <a href="{{ starter_url }}" class="btn-secondary text-center py-3 rounded-xl font-semibold transition-colors">
+                    Get Started
+                </a>
+            </div>
+
+            <!-- Pro Plan -->
+            <div class="pricing-card rounded-2xl p-8 flex flex-col bg-white border-2 border-[#27374D] relative">
+                <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <span class="pro-badge text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full">Most Popular</span>
+                </div>
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold mb-2">Pro</h3>
+                    <p class="text-sm text-[#526D82]">For teams scaling their operations.</p>
+                </div>
+                <div class="mb-8">
+                    <div class="flex items-baseline">
+                        <span id="pro-price" class="text-4xl font-bold tracking-tight">$29</span>
+                        <span id="pro-period" class="text-[#526D82] ml-1">/mo</span>
+                    </div>
+                </div>
+                <ul class="space-y-4 mb-8 flex-grow">
+                    <li class="flex items-center text-sm text-[#27374D]">
+                        <svg class="w-5 h-5 mr-3 check-icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                        Unlimited projects
+                    </li>
+                    <li class="flex items-center text-sm text-[#27374D]">
+                        <svg class="w-5 h-5 mr-3 check-icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                        Advanced insights
+                    </li>
+                    <li class="flex items-center text-sm text-[#27374D]">
+                        <svg class="w-5 h-5 mr-3 check-icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                        Priority email support
+                    </li>
+                    <li class="flex items-center text-sm text-[#27374D]">
+                        <svg class="w-5 h-5 mr-3 check-icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                        API Access
+                    </li>
+                </ul>
+                <a href="{{ pro_url }}" class="btn-primary text-center py-3 rounded-xl font-semibold">
+                    Start Pro Trial
+                </a>
+            </div>
+
+            <!-- Enterprise Plan -->
+            <div class="pricing-card rounded-2xl p-8 flex flex-col bg-white">
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold mb-2">Enterprise</h3>
+                    <p class="text-sm text-[#526D82]">Custom solutions for large organizations.</p>
+                </div>
+                <div class="mb-8">
+                    <div class="flex items-baseline">
+                        <span class="text-4xl font-bold tracking-tight">Custom</span>
+                    </div>
+                </div>
+                <ul class="space-y-4 mb-8 flex-grow">
+                    <li class="flex items-center text-sm text-[#27374D]">
+                        <svg class="w-5 h-5 mr-3 check-icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                        White-labeling
+                    </li>
+                    <li class="flex items-center text-sm text-[#27374D]">
+                        <svg class="w-5 h-5 mr-3 check-icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                        Dedicated account manager
+                    </li>
+                    <li class="flex items-center text-sm text-[#27374D]">
+                        <svg class="w-5 h-5 mr-3 check-icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                        SLA Guarantees
+                    </li>
+                </ul>
+                <a href="{{ enterprise_url }}" class="btn-secondary text-center py-3 rounded-xl font-semibold transition-colors">
+                    Contact Sales
+                </a>
+            </div>
+
+        </div>
+
+        <!-- FAQ or Bottom Text -->
+        <div class="mt-24 text-center">
+            <p class="text-[#526D82] text-sm">
+                Questions? <a href="#" class="underline font-medium text-[#27374D]">Chat with our team</a> or check out our <a href="#" class="underline font-medium text-[#27374D]">Help Center</a>.
+            </p>
+        </div>
+
+    </section>
+
+    <script>
+        let isYearly = false;
+
+        function toggleBilling() {
+            isYearly = !isYearly;
+            const slider = document.getElementById('toggle-slider');
+            const monthlyBtn = document.getElementById('monthly-btn');
+            const yearlyBtn = document.getElementById('yearly-btn');
+            const proPrice = document.getElementById('pro-price');
+            const proPeriod = document.getElementById('pro-period');
+
+            if (isYearly) {
+                slider.style.transform = 'translateX(calc(100% + 4px))';
+                monthlyBtn.style.color = '#526D82';
+                yearlyBtn.style.color = '#27374D';
+                proPrice.innerText = '$240';
+                proPeriod.innerText = '/year';
+            } else {
+                slider.style.transform = 'translateX(0)';
+                monthlyBtn.style.color = '#27374D';
+                yearlyBtn.style.color = '#526D82';
+                proPrice.innerText = '$29';
+                proPeriod.innerText = '/mo';
+            }
+        }
+    </script>
+
+</body>
+</html>

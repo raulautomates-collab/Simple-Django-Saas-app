@@ -1,0 +1,75 @@
+
+<!doctype html>
+<html class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --color-orange-primary: #f97316;
+        --color-orange-hover: #ea580c;
+        --color-dark-bg: #09090b;
+        --color-dark-card: #18181b;
+      }
+
+      .wallet-item {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .wallet-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px -5px rgba(249, 115, 22, 0.3);
+      }
+    </style>
+  </head>
+  <body class="bg-dark-bg flex items-center justify-center min-h-screen p-4">
+    
+<div class="w-full max-w-sm p-6 bg-dark-card border border-zinc-800 rounded-2xl shadow-2xl">
+    <h5 class="mb-2 text-xl font-bold text-white tracking-tight">Connect wallet</h5>
+    <p class="text-zinc-300 text-sm">Connect with one of our available wallet providers or create a new one.</p>
+    
+    <ul class="my-6 space-y-3">
+        <li>
+            <a href="#" class="wallet-item flex items-center p-3 text-base font-semibold text-white rounded-xl bg-zinc-900 border border-zinc-800 hover:border-orange-primary hover:bg-zinc-800 group">
+                <svg aria-hidden="true" class="h-6 w-6" viewBox="0 0 40 38" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M39.0728 0L21.9092 12.6999L25.1009 5.21543L39.0728 0Z" fill="#E17726"/><path d="M0.966797 0.0151367L14.9013 5.21656L17.932 12.7992L0.966797 0.0151367Z" fill="#E27625"/><path d="M15.6263 22.1875L17.1822 25.4575L11.8848 23.9057L15.6263 22.1875Z" fill="#233447"/><path d="M24.3739 22.1875L28.133 23.9053L22.8184 25.4567L24.3739 22.1875Z" fill="#233447"/><path d="M27.7797 23.6011L27.628 27.5039L22.8977 31.1894L21.9414 30.5138L23.0133 24.9926L27.7797 23.6011Z" fill="#F5841F"/><path d="M12.2373 23.6011L16.9873 24.9926L18.0591 30.5137L17.1029 31.1893L12.3723 27.5035L12.2373 23.6011Z" fill="#F5841F"/></svg>
+                <span class="flex-1 ms-3 truncate">{{profile_user_obj.username|default:"MetaMask"}}</span>
+                <span class="bg-orange-primary text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">Popular</span>
+            </a>
+        </li>
+        
+        <li>
+            <a href="#" class="wallet-item flex items-center p-3 text-base font-semibold text-white rounded-xl bg-zinc-900 border border-zinc-800 hover:border-orange-primary hover:bg-zinc-800 group">
+                <svg aria-hidden="true" class="h-6 w-6" viewBox="0 0 292 292" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M145.7 291.66C226.146 291.66 291.36 226.446 291.36 146C291.36 65.5541 226.146 0.339844 145.7 0.339844C65.2542 0.339844 0.0400391 65.5541 0.0400391 146C0.0400391 226.446 65.2542 291.66 145.7 291.66Z" fill="#3259A5"/><path d="M195.94 155.5C191.49 179.08 170.8 196.91 145.93 196.91C117.81 196.91 95.0204 174.12 95.0204 146C95.0204 117.88 117.81 95.0897 145.93 95.0897C170.8 95.0897 191.49 112.93 195.94 136.5H247.31C242.52 84.7197 198.96 44.1797 145.93 44.1797C89.6904 44.1797 44.1104 89.7697 44.1104 146C44.1104 202.24 89.7004 247.82 145.93 247.82C198.96 247.82 242.52 207.28 247.31 155.5H195.94Z" fill="white"/></svg>
+                <span class="flex-1 ms-3 truncate">Status: {{profile_user_obj.is_active|yesno:"Active,Inactive"}}</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="#" class="wallet-item flex items-center p-3 text-base font-semibold text-white rounded-xl bg-zinc-900 border border-zinc-800 hover:border-orange-primary hover:bg-zinc-800 group">
+                <div class="h-6 w-6 flex items-center justify-center bg-orange-primary rounded-md">
+                   <span class="text-white text-[10px] font-black">ID</span>
+                </div>
+                <span class="flex-1 ms-3 truncate">Account ID: {{profile_user_obj.pk}}</span>
+            </a>
+        </li>
+    </ul>
+
+    <button type="button" class="w-full text-white bg-orange-primary hover:bg-orange-hover focus:ring-4 focus:ring-orange-900/50 font-bold rounded-xl text-sm px-5 py-3.5 text-center transition-all active:scale-[0.97] mb-4 shadow-lg shadow-orange-900/20">
+        Connect Now
+    </button>
+
+    <div class="pt-4 border-t border-zinc-800 text-center">
+        <a href="#" class="inline-flex items-center text-xs font-medium text-zinc-400 hover:text-white transition-colors">
+            <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Why do I need a wallet?
+        </a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    
+  </body>
+</html>

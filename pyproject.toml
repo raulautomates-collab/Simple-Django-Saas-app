@@ -1,0 +1,32 @@
+[project]
+name = "django-project"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "asgiref==3.11.0",
+    "cfgv==3.5.0",
+    "distlib==0.4.0",
+    "dj-database-url>=3.1.0",
+    "django==6.0",
+    "django-allauth-ui>=1.8.1",
+    "django-allauth[socialaccount]>=65.13.1",
+    "django-widget-tweaks>=1.5.1",
+    "dotenv>=0.9.9",
+    "filelock==3.20.2",
+    "gunicorn>=23.0.0",
+    "identify==2.6.15",
+    "nodeenv==1.10.0",
+    "platformdirs==4.5.1",
+    "pre-commit==4.5.1",
+    "psycopg[binary]>=3.3.2",
+    "python-decouple>=3.8",
+    "pyyaml==6.0.3",
+    "requests>=2.32.5",
+    "slippers>=0.6.2",
+    "sqlparse==0.5.5",
+    "tzdata==2025.3 ; sys_platform == 'win32'",
+    "virtualenv==20.35.4",
+    "whitenoise>=6.11.0",
+]

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pink Gradient Concept</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Ewert&family=Pinyon+Script&display=swap" rel="stylesheet">
+
+    <style>
+       html,body{
+  width: 100%;
+  margin: 0px;
+}
+html{
+  background:#eeecec;
+  overflow-x: hidden;
+}
+#container{
+  z-index: 111;
+}
+
+.navT{
+  -webkit-transition: all 0.25s;
+  z-index: 111;
+  cursor: pointer;
+  width: 100%;
+  background:#212121;
+  height: 65px;
+  left: 0;
+  top: 0;
+  position: fixed;
+}
+
+.navT .icon{
+  -webkit-transition: all 0.25s;
+  position: absolute;
+  width: 30px;
+  height: 1px;
+  left: 15px;
+  top: 30px;
+  background-color: white;
+}
+
+.navT .icon:before, 
+.navT .icon:after{
+  -webkit-transition: all 0.25s;
+  width: 30px;
+  height: 1px;
+  left: 0;
+  background: white;
+  position: absolute;
+  content: '';
+}
+
+.navT .icon:before{
+  top: -10px;
+}
+
+.navT .icon:after{
+  top: 10px;
+}
+
+.navT:hover{
+  background:black;
+}
+
+.navT:hover .icon:before{
+  top:-12px;
+}
+
+.navT:hover .icon:after{
+  top: 12px;
+}
+
+.navT.active .icon{
+  -webkit-transform: rotate(180deg);
+  background-color: transparent;
+  left: 10px;
+}
+
+.navT.active .icon:before, 
+.navT.active .icon:after{
+  top: 0;
+}
+
+.navT.active .icon:before{
+  -webkit-transform: rotate(45deg);
+}
+
+.navT.active .icon:after{
+  -webkit-transform: rotate(-45deg);
+}
+
+#menu{
+  z-index: 111;
+  -webkit-transition: all 0.5s;
+  text-align: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  top: 65px;
+  font-size: 18px;
+  font-family: sans-serif;
+  font-weight: 100;
+  text-transform: uppercase;
+  width: 100%;
+  height: 0;
+  border-bottom: 1px solid transparent;
+  overflow: hidden;
+}
+
+#menu ul{
+  list-style: none;
+  padding: 0;
+  letter-spacing: 0.4em;
+}
+
+#menu li:first-child{
+  margin-top: 0;
+}
+
+#menu li{
+  -webkit-transition: all 0.2s;
+  margin-top: 20px;
+  padding: 5px 0;
+  color:white;
+}
+
+#menu a{
+  padding: 8px;
+  -webkit-transition: all 0.25s;
+  cursor: pointer;
+  color: white;
+  text-decoration: none;
+}
+
+#menu a:hover{
+  letter-spacing: 0.5em;
+  text-decoration: underline;
+}
+
+#menu.open{
+  height: 270px;
+  width: 100%;
+  background: #f3581b;
+  border-bottom: 1px solid black;
+}
+
+.space{
+  letter-spacing: 0;
+}
+
+.content{
+  width: 100%;
+  font-size: 20px;
+  font-family: sans-serif;
+  font-weight: 100;
+  -webkit-transition: top 0.5s;
+  position: absolute;
+  top: 65px;
+  margin: 0 auto;
+}
+
+.content h1{
+  font-size: 3em;
+  text-transform: uppercase; 
+  margin-top: 85px;
+  margin-left: 10px;
+}
+
+.content h2{
+  font-size: 1em;
+  text-transform: uppercase;
+  margin-top: -25px;
+  margin-left: 10px;
+  font-weight: 400;
+  letter-spacing: 0.7em;
+}
+
+.content.shift{
+  top: 335px;
+}
+
+p{
+  max-width: 600px;
+  font-size: 0.75em;
+  line-height: 1.75em;
+  text-align: left;
+  margin-left: 10px;
+}
+
+#second{
+  left: 0;
+  width: 100%;
+  background: #999;
+  height: 600px;
+  margin-top: 200px;
+  text-align: center;
+}
+
+#second h1, 
+#second h2{
+  margin-right:20px;
+}
+
+#second h1{
+  padding-top: 40px;
+}
+
+#second p{
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+#third{
+  background: black;
+  width: 100%;
+  height: 300px;
+  padding-top: 50px;
+}
+
+#third h2{
+  color: white;
+  text-align: center;
+  margin-top: 50px;
+}
+
+#third h5{
+  color: white;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  font-weight: 200;
+  letter-spacing: 0.25em;
+  text-align: center;
+}
+
+#bar{
+  width: 40%;
+  height: 200px;
+  margin: 0 auto;
+  border: 1px dashed white;
+}
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div class="navT">
+        <div class="icon"></div>
+      </div>
+      
+      <div id="menu">
+        <ul>
+          {% if request.user.is_authenticated %}
+            <li><a href="accounts/email/">Change email</li>
+            <li><a href="accounts/logout">Logout</a></li>
+            <li><a href="base/">View page visits</a></li>
+            <li><a href="profiles/list" class="btn btn-primary">View users></a></li>
+            <li><a href="profiles/marvel">Marvel page</a></li>
+          
+            
+          {% else %}
+            <li><a href="accounts/login">Login</a></li>
+            <li><a href="accounts/signup/">Sign up</a></li>
+            <li><a href="subs/pricing" class="btn btn-primary">Pricing</a></li>
+            
+
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+    
+    <div class='content'>
+      <div id="first">
+        <h1>HOLLA</h1>
+        <h2><a href="subs/pricing">Pricing</a></h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </div>
+      <div id="second">
+        <h1>The Top Menu</h1
+        <h2>Pushes page content down</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <div id="bar"></div>
+      </div>
+      <div id="third">
+        <h2>But also allows for scrolling</h2>
+        <h5>While the menu is down</h5>
+      </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(".navT").on("click", function(){
+        $(this).toggleClass("active");
+        $("#menu").toggleClass("open");
+        $(".content").toggleClass("shift");
+      });
+    </script>
+  </body>
+</html>

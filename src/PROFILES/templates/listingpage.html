@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pink Gradient Concept</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Ewert&family=Pinyon+Script&display=swap" rel="stylesheet">
+
+    <style>
+
+        :root {
+  --base-hue: 260;
+  --font-family: Inter;
+  --leading: 1.5;
+  
+  --bg-color: hsl(var(--base-hue) 25% 25%);
+  --bg-img-url: url(https://i.ibb.co/Qjt7TJn/milad-fakurian-E8-Ufcyxz514-unsplash-1.jpg);
+  --text-color: hsl(var(--base-hue) 40% 25%);
+  
+  --card-width: 500px;
+  --card-height: 200px;
+  --card-padding: 2.25rem;
+  --card-corner-radius: 1.5rem;
+  --card-bg-blur-amount: 1rem;
+  --card-shadow:     
+    0 0 0.5rem 2px hsl(var(--base-hue) 25% 25% / 35%),
+    inset 0 0 0.1rem hsl(var(--base-hue) 75% 40% / 20%),
+    inset 0 0 0.2rem 0.1rem hsl(var(--base-hue) 75% 40% / 15%),
+    inset 0 0 0.3rem 0.2rem hsl(var(--base-hue) 75% 40% / 10%);
+}
+
+* {
+  &,
+  &:before,
+  &:after {
+    box-sizing: border-box;
+  }
+}
+
+body {
+  margin: 0;
+  font: 1em/var(--leading) var(--font-family), sans-serif;
+  color: var(--text-color);
+  background: var(--bg-color) var(--bg-img-url) 
+    center / cover no-repeat fixed;
+}
+
+p {
+  margin: 0;
+  &:not(:last-child) {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.site-container {
+  min-height: 100vh;
+  padding: 2rem;
+  display: grid;
+  place-items: center;
+}
+
+.card {
+  max-width: var(--card-width);
+  min-height: var(--card-height);
+  padding: var(--card-padding);
+  border-radius: var(--card-corner-radius);
+  background-color: hsl(var(--base-hue) 25% 95% / 45%);
+}
+
+.card--glass {
+  font-size: 125%;
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(var(--card-bg-blur-amount));
+}
+
+.card-footer {
+  margin-top: 10rem;
+  font-size: 0.75rem;
+  opacity: 75%;
+}
+h2{
+  font-weight:500,
+
+}
+    </style>
+ 
+
+
+
+<div class="site-container">
+  <h2>Our users</h2>
+
+      {% for instance in myusers %}
+      <div class="card card--glass">
+        
+        
+        
+        <p>My user is <strong>{{instance.username}}</strong> Learn more about <strong><a href="{% url 'profile' instance.username %}">{{instance.username}}</a></strong></p>
+        <p class="card-footer">written by Quintonn</p>
+      </div>
+        {% endfor %}
+     
+</div>
