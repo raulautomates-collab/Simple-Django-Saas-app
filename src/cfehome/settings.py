@@ -7,25 +7,39 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 print(f'the base directory is{BASE_DIR}')
 
+#Quick-start development settings - unsuitable for production
+
+
+# Email Configuration
+
+# settings.py
+
 # Email Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.environ.get('EMAIL_HOST', default='smtp.gmail.com')
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT',default=' 587'))
-EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
-EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', 'False') == 'True'
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER',default=None)
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD',default=None)  # Fixed variable name
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', default='587'))
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', default='True')
+#EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', default='False') 
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', default=None)
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', default=None)
+
+DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER', 'raulautomates@gmail.com')
+SERVER_EMAIL = os.environ.get('EMAIL_HOST_USER', 'raulautomates@gmail.com')
 
 # Email admins for sending emails
-ADMINS = [('raul', 'raulautomates@gmail.com')]
+ADMINS = [('dominic','dominicomondi747@gamil.com')]
 MANAGERS = ADMINS
 
-# Quick-start development settings - unsuitable for production
+#1->notes: Changed my user email several times,used an older email indicated above for authentictaion
+#2->notes:Remove the email use SSL setting ,both are mutually exclusive.Unfortunately have to add.env file to github for testing
+#3->notes: Do not use .env in production
+
+
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+$don+lzrsma^h_j_6ckwbmfe%tile$av^o9)&*s5pj47kk0!q'
-print(BASE_DIR)
+SECRET_KEY = str(os.environ.get('DJANGO_SECRET_KEY'))
+
 
 # Default (no need to add this unless customizing)
 AUTH_USER_MODEL = 'auth.User'

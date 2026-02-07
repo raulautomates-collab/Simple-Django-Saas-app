@@ -1,7 +1,7 @@
 from typing import Any
-from django.core.management.base import BaseCommand
+from django.core.management import BaseCommand 
 
-class Command(BaseCommand):#basic hello world function
+class Command(BaseCommand):
     
-    def handle(self, *args: Any, **options: Any):
-        print('Homie ,you trippin,gay ass motherfuc**er')
+    def handle(self,*args,**kwargs):
+        print('Homie you trippin,gay ass motherfucker.Imma clip your ass')
