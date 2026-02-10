@@ -74,13 +74,13 @@ class MyUserSubscription(models.Model):
     user=models.OneToOneField(MyUser,on_delete=models.CASCADE)
     sub=models.ForeignKey(Subscription,on_delete=models.SET_NULL,null=True,blank=True)
     isactive=models.BooleanField(default=True)
-
+    stripe_id=models.CharField(max_length=120,blank=True,null=True)
 
 
 
 
 #subscription sgnals and signal relationshps
-#Checks for whwn the subscription is changed and grabs the associated groups
+#Checks for when the subscription is changed and grabs the associated groups
 def user_sub_post_save(sender,instance,*args,**kwargs):
      user_sub_instance=instance
      user=user_sub_instance.user
@@ -127,7 +127,7 @@ class SubscriptionPrice(models.Model):
         
         
         def get_mycheckout_url(self):
-         return reverse('sub_price_checkout',kwargs={'price_id':self.id}) # type: ignore
+         return reverse('sub_price_checkout',kwargs={'price_id':self.id}) # type: ignore->model id used
 
 
 

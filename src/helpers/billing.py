@@ -64,29 +64,30 @@ def start_checkout_session(customer_id,success_url="",cancel_url="",price_stripe
         line_items=[{"price":price_stripe_id, "quantity": 1}],
         mode="subscription",
         cancel_url=cancel_url,
+        customer=customer_id
     )
-    if not success_url.endswith("?session_id={CHECKOUT_SESSION_ID}"):
+    if not success_url.endswith("?session_id={CHECKOUT_SESSION_ID}"):#stripe urlapi variable naming
         success_url=f"{success_url}"+"session_id={CHECKOUT_SESSION_ID}"
     if raw:
         return response
     return response.url
     
 
-def get_checkout_session(request,stripe_id="",raw=False):
+
+def get_checkout_session(stripe_id,raw=True):
     response=stripe.checkout.Session.retrieve(
-               stripe_id                     
+        stripe_id
     )
-    
+
     if raw:
         return response
     return response.url
+    
+#->Retrieve a subscription
 
+def get_subscription(stripe_id,raw=True):
+    response=stripe.Subscription.retrieve(stripe_id)
 
-def get_subscription(request,stripe_id="",raw=False):
-    response=stripe.Subscription.retrieve(
-        stripe_id
-    )
     if raw:
         return response
-    return response.url # type: ignore
-
+    return response.url

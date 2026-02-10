@@ -40,7 +40,7 @@
 </head>
 <body>
 
-    <!-- Header / Nav -->
+
     <nav class="border-b border-brand-blue-light/30 py-4">
         <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
             <div class="text-2xl font-black tracking-tighter text-brand-navy flex items-center gap-2">
@@ -96,57 +96,17 @@
                 </div>
             </div>
         </div>
+
+
     </section>
 
     <!-- Pricing Section -->
     <section id="pricing" class="py-24 bg-brand-blue-light/20">
         <div class="max-w-7xl mx-auto px-6 text-center mb-16">
-            <h2 class="text-4xl font-extrabold mb-4">Simple, transparent pricing</h2>
-            <p class="text-slate-600">Choose the plan that fits your current needs.</p>
+            {{subscription}} {{checkout}}
         </div>
-{% for sub in monthly_qs %}
-        <div class="flex justify-center px-6">
-            <!-- Corrected Pricing Card -->
-            
-            <div class="w-full max-w-sm p-8 bg-white border border-brand-blue-light rounded-[2rem] shadow-xl hover:shadow-2xl transition-shadow duration-500">
-                <h5 class="mb-4 text-xl font-bold text-brand-navy">{{sub.subscription}}</h5>
-                <div class="flex items-baseline text-brand-navy">
-                    <span class="text-5xl font-extrabold tracking-tight">{{sub.price}}</span>
-                    <span class="ms-2 font-medium text-slate-500">/{{sub.pricing_interval}}</span>
-                </div>
-                
-                <ul role="list" class="space-y-4 my-8">
-                    <li class="flex items-center">
-                        <svg class="w-5 h-5 shrink-0 text-brand-orange me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
-                        <span class="text-brand-navy font-medium">2 team members</span>
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-5 h-5 shrink-0 text-brand-orange me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
-                        <span class="text-brand-navy font-medium">20GB Cloud storage</span>
-                    </li>
-                    <li class="flex items-center">
-                        <svg class="w-5 h-5 shrink-0 text-brand-orange me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
-                        <span class="text-brand-navy font-medium">Integration help</span>
-                    </li>
-                    <li class="flex items-center line-through text-slate-400">
-                        <svg class="w-5 h-5 shrink-0 text-slate-300 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
-                        <span>Sketch Files</span>
-                    </li>
-                    <li class="flex items-center line-through text-slate-400">
-                        <svg class="w-5 h-5 shrink-0 text-slate-300 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
-                        <span>API Access</span>
-                    </li>
-                    <li class="flex items-center line-through text-slate-400">
-                        <svg class="w-5 h-5 shrink-0 text-slate-300 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
-                        <span>Complete documentation</span>
-                    </li>
-                </ul>
-                <button type="button" class="w-full text-white bg-brand-navy hover:bg-brand-orange focus:ring-4 focus:ring-brand-orange-light font-bold rounded-xl text-sm px-4 py-4 transition-all duration-300">Choose plan</button>
-            </div>
-        </div>
-        
     </section>
-{% endfor %}
+
     <!-- Footer -->
     <footer class="bg-brand-navy text-white pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-6">
