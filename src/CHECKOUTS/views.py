@@ -5,7 +5,7 @@ from helpers import billing
 from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.http import HttpResponse
+from django.http import HttpResponseBadRequest,HttpResponse
 
 
 
@@ -53,17 +53,40 @@ def checkout_redirect_view(request):
     
 
 def checkout_finalize_view(request):
-    session_id = request.GET.get('session_id')
-    
-    if not session_id:
-        return HttpResponse('Error: No session ID provided', status=400)
-    
-    checkout_r = billing.get_checkout_session(session_id, raw=True)
-    sub_stripe_id = checkout_r.subscription
-    sub_r = billing.get_subscription(sub_stripe_id, raw=True)
-    
-    context = {
-        'checkout': checkout_r,
-        'subscription': sub_r
-    }
-    return render(request, 'checkoutsuccess.html', context)
+    session_id=request.GET.get('session_id')
+    customer_id,plan_id=billing.get_subscription_plan(session_id)
+    #1->Subscription related lookups
+    try:
+        sub_obj=Subscription.objects.get(subscriptionprice__stripe_id=plan_id)
+    except:
+        sub_obj=None
+
+    #2->User related lookups
+    try:
+        user_obj=User.objects.get(customer__stripe_id=customer_id)  
+
+    except:
+        user_obj=None
+    user_sub_exists=False
+
+    #3->Create the actul user object and save
+    try:
+        user_sub_obj=MyUserSubscription.objects.get(user=user_obj)
+        user_sub_exists=True
+
+    except MyUserSubscription.DoesNotExist:
+        user_sub_obj=MyUserSubscription.objects.create(user=user_obj,sub=sub_obj)
+
+    except:
+        user_sub_obj=None
+    if None in [user_obj,sub_obj,user_sub_obj]:
+        return HttpResponseBadRequest('There was an error with your account.Please contact us')  
+
+    #4-> save the user object
+    if user_sub_exists:
+        #5=>Cancel old subs
+        user_sub_obj.sub=sub_obj
+        user_sub_obj.user=user_obj
+        user_sub_obj.save()
+
+    return render(request, 'checkoutsuccess.html', {})

@@ -4,6 +4,9 @@ import stripe
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from . import date_utils
+
+
 
 load_dotenv()
 
@@ -72,7 +75,7 @@ def start_checkout_session(customer_id,success_url="",cancel_url="",price_stripe
         return response
     return response.url
     
-
+#RETRIEVE A CUSTOMER SESSION
 
 def get_checkout_session(stripe_id,raw=True):
     response=stripe.checkout.Session.retrieve(
@@ -90,4 +93,30 @@ def get_subscription(stripe_id,raw=True):
 
     if raw:
         return response
-    return response.url
+    return serialize_subscription_data(response.url)
+
+#serialize sub data
+def serialize_subscription_data(subscription_response):
+    status=subscription_response.status
+    current_period_start=date_utils.timestamp_as_datetime(subscription_response.current_period_start)
+    current_period_end=date_utils.timestamp_as_datetime(subscription_response.current_period_end)
+
+
+    return {
+        'current_period_start':current_period_start,
+        'current_period_end':current_period_end,
+        'status':status
+    }
+                
+#Correlating the user purchase with the user subscription all details are from stripe
+def get_subscription_plan(session_id):
+    checkout_r=get_checkout_session(session_id,raw=True)
+    
+    sub_stripe_id=checkout_r.subscription
+    sub_r=get_subscription(sub_stripe_id,raw=True)
+    customer_id=checkout_r.customer
+    sub_plan=sub_r.plan
+    
+    
+    return customer_id,sub_plan.id,sub_stripe_id
+

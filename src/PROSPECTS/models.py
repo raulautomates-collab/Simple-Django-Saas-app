@@ -18,6 +18,7 @@ class Customer(models.Model):
    init_email=models.EmailField(blank=True,null=True)
    init_email_confirmed=models.BooleanField(default=False)
    stripe_id=models.CharField(max_length=60,null=True,blank=True)
+   
 
    def __str__(self):
       return f"{self.user.username}"

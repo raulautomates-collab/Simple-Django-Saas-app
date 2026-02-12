@@ -32,3 +32,7 @@ def subview(request,pricing_interval="month"):
 
     
     return render(request,'snippet.html',context)
+
+
+def user_subscription_view(request):
+     return render(request,'user_detailview.html')
