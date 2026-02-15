@@ -2,5 +2,5 @@ import datetime
 
 #Retrieve current subscription start and end dates
 
-def timetsamp_as_date(timestamp):
-    return datetime.datetime.fromtimestamp(timestamp,tz=datetime.UTC)
+def timestamp_as_datetime(timestamp):
+    return datetime.datetime.fromtimestamp(timestamp,tz=datetime.UTC)#returns an integer as a timestamp

@@ -23,7 +23,7 @@ html{
 }
 
 .navT{
-  -webkit-transition: all 0.25s;
+  webkit-transition: all 0.25s;
   z-index: 111;
   cursor: pointer;
   width: 100%;
@@ -259,14 +259,18 @@ p{
             <li><a href="accounts/email/">Change email</li>
             <li><a href="accounts/logout">Logout</a></li>
             <li><a href="base/">View page visits</a></li>
+            <li><a href="subs/accounts/billing" class="btn btn-primary">My Subscriptions></a></li>
+            
             <li><a href="profiles/list" class="btn btn-primary">View users></a></li>
             <li><a href="profiles/marvel">Marvel page</a></li>
+
           
             
           {% else %}
             <li><a href="accounts/login">Login</a></li>
             <li><a href="accounts/signup/">Sign up</a></li>
             <li><a href="subs/pricing" class="btn btn-primary">Pricing</a></li>
+             <li><a href="subs/accounts/billing" class="btn btn-primary">My Subscriptions></a></li>
             
 
           {% endif %}

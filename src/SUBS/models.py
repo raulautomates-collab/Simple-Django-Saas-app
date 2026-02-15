@@ -86,7 +86,7 @@ class MyUserSubscription(models.Model):
     
     user=models.OneToOneField(MyUser,on_delete=models.CASCADE)
     sub=models.ForeignKey(Subscription,on_delete=models.SET_NULL,null=True,blank=True)
-    isactive=models.BooleanField(default=True)
+    
     stripe_id=models.CharField(max_length=120,blank=True,null=True)
     active=models.BooleanField(default=True) #Check for active subscriptions
     user_cancelled=models.BooleanField(default=False)
@@ -94,18 +94,23 @@ class MyUserSubscription(models.Model):
     current_period_end=models.DateTimeField(auto_now=False,auto_now_add=False,blank=True,null=True)
     original_period_start=models.DateTimeField(auto_now=False,auto_now_add=False,blank=True,null=True)
     
-    #->Eansuring the user has only one subscription
+    #->Ensuring the user has only one subscription
     status=models.CharField(choices=SubscriptionStatus.choices,max_length=20,blank=True,null=True)
 
-    #Subscription time anchors ->Optional delay to start new subscription in stripe
-     
+   #1:OPTIONAL delay to start new subscription in checkout
+   #https://docs.stripe.com/payments/checkout/billing-cycle
+    @property
+    def billling_cycle_anchor(self):
+         if self.current_period_end:
+              return int(self.current_period_end.timestamp())
 
+    def save(self,*args,**kwargs):
+         if (self.original_period_start is None and self.current_period_start is not None):
+              self.current_period_start=self.original_period_start
+
+         super().save(*args,**kwargs)
     
 
-
-
-#subscription signals and signal relationshps
-#Checks for when the subscription is changed and grabs the associated groups
 
 #->Subscription price model
 class SubscriptionPrice(models.Model):
@@ -186,3 +191,30 @@ class SubscriptionPrice(models.Model):
                   pricing_interval=self.pricing_interval
              ).exclude(id=self.id) # type: ignore
              qs.update(featured=False)    
+
+
+def user_sub_post_save(sender, instance, *args, **kwargs):
+    user_sub_instance = instance
+    user = user_sub_instance.user
+    subscription_obj = user_sub_instance.sub
+    groups_ids = []
+    if subscription_obj is not None:
+        groups = subscription_obj.groups.all()
+        groups_ids = groups.values_list('id', flat=True)
+    if not ALLOW_CUSTOM_GROUPS:
+        user.groups.set(groups_ids)
+    else:
+        subs_qs = Subscription.objects.filter(isactive=True)
+        if subscription_obj is not None:
+            subs_qs = subs_qs.exclude(id=subscription_obj.id)
+        subs_groups = subs_qs.values_list("groups__id", flat=True)
+        subs_groups_set = set(subs_groups)
+        # groups_ids = groups.values_list('id', flat=True) # [1, 2, 3] 
+        current_groups = user.groups.all().values_list('id', flat=True)
+        groups_ids_set = set(groups_ids)
+        current_groups_set = set(current_groups) - subs_groups_set
+        final_group_ids = list(groups_ids_set | current_groups_set)
+        user.groups.set(final_group_ids)
+
+
+post_save.connect(user_sub_post_save, sender=MyUserSubscription)            
