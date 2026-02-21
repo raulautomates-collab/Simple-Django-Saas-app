@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bignyash AI - Modern SaaS</title>
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
 
@@ -19,10 +17,11 @@
             --font-sans: 'Inter', sans-serif;
             --font-mono: 'Fragment Mono', monospace;
             
-            --color-brand-navy: #161E54;
-            --color-brand-blue-light: #BBE0EF;
-            --color-brand-orange: #F16D34;
-            --color-brand-orange-light: #FF986A;
+            /* Updated Color Scheme */
+            --color-brand-navy: #71C9CE;         /* Darkest */
+            --color-brand-orange: #A6E3E9;       /* Mid-Dark */
+            --color-brand-orange-light: #CBF1F5; /* Mid-Light */
+            --color-brand-blue-light: #E3FDFD;   /* Lightest */
         }
 
         body {
@@ -30,7 +29,7 @@
         }
 
         .hero-gradient {
-            background: linear-gradient(135deg, #161E54 0%, #24338a 100%);
+            background: linear-gradient(135deg, #71C9CE 0%, #A6E3E9 100%);
         }
         
         .mono-tag {
@@ -58,7 +57,6 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero-gradient text-white py-24 overflow-hidden relative">
         <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
             <div class="z-10">
@@ -100,14 +98,12 @@
 
     </section>
 
-    <!-- Pricing Section -->
     <section id="pricing" class="py-24 bg-brand-blue-light/20">
         <div class="max-w-7xl mx-auto px-6 text-center mb-16">
             {{subscription}} {{checkout}}
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="bg-brand-navy text-white pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">

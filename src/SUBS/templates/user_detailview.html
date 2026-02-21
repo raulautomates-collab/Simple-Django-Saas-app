@@ -1,2 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing | Adaline Style</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #134686;   /* Deep Blue */
+            --color-accent: #ED3F27;    /* Red */
+            --color-highlight: #FEB21A; /* Yellow */
+            --color-bg: #FDF4E3;        /* Cream */
+        }
 
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-primary);
+        }
+
+        .font-mono-custom {
+            font-family: 'Fragment Mono', monospace;
+        }
+
+        .pricing-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: white;
+            border: 1px solid rgba(19, 70, 134, 0.1);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(19, 70, 134, 0.15);
+        }
+
+        .pro-badge {
+            background-color: var(--color-accent);
+            color: white;
+            box-shadow: 0 4px 10px rgba(237, 63, 39, 0.3);
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-accent);
+            transform: scale(1.02);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--color-primary);
+            color: var(--color-primary);
+            transition: all 0.2s;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--color-primary);
+            color: white;
+        }
+
+        .check-icon {
+            color: var(--color-highlight);
+        }
+
+        /* Glassmorphism subtle effect for the toggle */
+        .toggle-container {
+            background: rgba(19, 70, 134, 0.05);
+            border: 1px solid rgba(19, 70, 134, 0.1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <section class="py-20 px-6 max-w-7xl mx-auto">
+        
+        <div class="text-center mb-16">
+            <h2 class="font-mono-custom text-xs uppercase tracking-[0.3em] text-[#ED3F27] font-bold mb-4">Pricing Plans</h2>
+            <h1 class="text-4xl md:text-6xl font-black text-[#134686] tracking-tight mb-6">
+                 <a href="{{mysubscription.cancel_url}}">Cancel membership</a>
+            </h1>
             
+           
+
+        
+
+            <div class="pricing-card rounded-3xl p-8 flex flex-col border-4 border-[#134686] relative transform scale-105 z-10 shadow-2xl">
+                <div class="absolute -top-5 left-1/2 transform -translate-x-1/2">
+                    <span class="pro-badge text-[10px] font-black uppercase tracking-[0.2em] px-6 py-2 rounded-full">Active Plan</span>
+                </div>
+                
+                <div class="mb-8 mt-4">
+                    <p class="text-xs font-bold text-[#ED3F27] uppercase mb-2 font-mono-custom">Current Subscription</p>
+                    
+                        <h3 class="text-2xl font-black text-[#134686]">{{mysubscription.plan_name}}</h3>
+                        <div class="mt-4 p-4 rounded-2xl bg-[#FDF4E3] border border-[#FEB21A]/30">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-xs font-bold opacity-60">Status:</span>
+                                <span class="text-xs font-black uppercase text-[#134686]">{{mysubscription.status}}</span>
+                            </div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-xs font-bold opacity-60">Renews in:</span>
+                                <span class="text-xs font-black text-[#134686]">{{mysubscription.current_period_end|timeuntil}}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-xs font-bold opacity-60">Member for:</span>
+                                <span class="text-xs font-black text-[#134686]">{{mysubscription.original_period_start|timesince}}</span>
+                            </div>
+                        </div>
+                        
+                </div>
+
+                <div class="mt-auto space-y-4">
+                    <form action="" method="POST" class="w-full">
+                        {% csrf_token %}
+                        <button class="btn-primary w-full py-4 rounded-2xl font-bold uppercase tracking-widest text-xs shadow-lg">
+                            Refresh Account
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-24 text-center">
+            <p class="text-[#134686]/60 text-sm font-medium">
+                Questions? <a href="#" class="text-[#ED3F27] font-black underline decoration-2 underline-offset-4">Chat with our team</a> or check out our <a href="#" class="text-[#ED3F27] font-black underline decoration-2 underline-offset-4">Help Center</a>.
+            </p>
+        </div>
+
+    </section>
+
+    <script>
+        // Simple toggle visual helper
+        function toggleBilling() {
+            const slider = document.getElementById('toggle-slider');
+            // This is just a visual mock for your UI
+            slider.classList.toggle('translate-x-full');
+        }
+    </script>
+</body>
+</html>

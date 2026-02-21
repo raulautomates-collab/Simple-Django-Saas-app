@@ -19,6 +19,19 @@ PERMISSIONS=[
     ]
 
  
+
+class SubscriptionStatus(models.TextChoices):
+         
+         ACTIVE='active','Active',
+         TRIALING='trialing','Trialing',
+         INCOMPLETE='incomplete','Incomplete',
+         INCOMPLETE_EXPIRED='incomplete_expired','Incomplete Expired',
+         PAST_DUE='past_due','Past Due',
+         CANCELLED='cancelled','Cancelled',
+         UNPAID='unpaid','Unpaid',
+         UNUSED='unused','Unused',
+
+
 class Subscription(models.Model):
     name=models.CharField(max_length=20)
     groups=models.ManyToManyField(Group)#on to one->etc
@@ -73,16 +86,9 @@ class Subscription(models.Model):
 class MyUserSubscription(models.Model):
 
 
-    class SubscriptionStatus(models.TextChoices):
+    
          
-         ACTIVE='active','Active',
-         TRIALING='trialing','Trialing',
-         INCOMPLETE='incomplete','Incomplete',
-         INCOMPLETE_EXPIRED='incomplete_expired','Incomplete Expired',
-         PAST_DUE='past_due','Past Due',
-         CANCELLED='cancelled','Cancelled',
-         UNPAID='unpaid','Unpaid',
-         UNUSED='unused','Unused',
+         
     
     user=models.OneToOneField(MyUser,on_delete=models.CASCADE)
     sub=models.ForeignKey(Subscription,on_delete=models.SET_NULL,null=True,blank=True)
@@ -96,6 +102,7 @@ class MyUserSubscription(models.Model):
     
     #->Ensuring the user has only one subscription
     status=models.CharField(choices=SubscriptionStatus.choices,max_length=20,blank=True,null=True)
+    cancel_at_period_end=models.BooleanField(default=False)
 
    #1:OPTIONAL delay to start new subscription in checkout
    #https://docs.stripe.com/payments/checkout/billing-cycle
@@ -103,12 +110,40 @@ class MyUserSubscription(models.Model):
     def billling_cycle_anchor(self):
          if self.current_period_end:
               return int(self.current_period_end.timestamp())
+         
+    def serialize(self):
+         return{
+              'status':self.status,
+              'current_period_start':self.current_period_start,
+              'current_period_end':self.current_period_end,
+              'plan_name':self.plan_name
+         }
+
+    def get_absolute_url(self):
+         return reverse('mysubscription')
+    
+
+    def cancel_url(self):
+         return reverse('cancelmysubscription')
+  
+    
+    @property
+    def is_activestatus(self):
+         return self.status in[SubscriptionStatus.ACTIVE,SubscriptionStatus.TRIALING]
+
+    def plan_name(self):
+         if not self.sub:
+              return None
+         return self.sub.name
+    
 
     def save(self,*args,**kwargs):
-         if (self.original_period_start is None and self.current_period_start is not None):
-              self.current_period_start=self.original_period_start
-
-         super().save(*args,**kwargs)
+    # Set original_period_start only on first save when it's None
+        
+        if self.original_period_start is None and self.current_period_start is not None:
+            self.original_period_start = self.current_period_start  # ← FIXED
+            
+        super().save(*args,**kwargs)
     
 
 

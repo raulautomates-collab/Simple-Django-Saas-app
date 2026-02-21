@@ -55,10 +55,12 @@ def checkout_redirect_view(request):
 def checkout_finalize_view(request):
     session_id=request.GET.get('session_id')
     checkout_data=billing.get_subscription_plan(session_id)
-    plan_id=checkout_data.pop('plan_id')
-    customer_id=checkout_data.pop('customer_id')
-    sub_stripe_id=checkout_data.pop('sub_stripe_id')
-    subscription_data={**checkout_data}
+    plan_id=checkout_data.get('plan_id')
+    customer_id=checkout_data.get('customer_id')
+    sub_stripe_id=checkout_data.get('sub_stripe_id')
+    current_period_start=checkout_data.get('current_period_start')
+    current_period_end=checkout_data.get('current_period_end')
+   # subscription_data={**checkout_data}
     #->Subscription related lookups
     try:
         sub_obj=Subscription.objects.get(subscriptionprice__stripe_id=plan_id)
@@ -76,7 +78,10 @@ def checkout_finalize_view(request):
         'sub':sub_obj,
         'stripe_id':sub_stripe_id,
         'user_cancelled':False,
-        **subscription_data
+        'current_period_end':current_period_end,
+        'current_period_start':current_period_start
+        
+        
         
     }
     #3->Create the actual user object and save
@@ -85,7 +90,10 @@ def checkout_finalize_view(request):
         user_sub_exists=True
 
     except MyUserSubscription.DoesNotExist:
-        user_sub_obj=MyUserSubscription.objects.create(user=user_obj,**updated_sub_options)
+        user_sub_obj=MyUserSubscription.objects.create(
+            user=user_obj,
+            **updated_sub_options
+            )
 
     except:
         user_sub_obj=None
@@ -102,10 +110,19 @@ def checkout_finalize_view(request):
                 billing.cancel_subscription(old_stripe_id,reason='Auto ended new membership ',feedback='other')
              except:
                  pass  
-        #6=>Assign new subs
-        for k,v in updated_sub_options:
-            setattr(user_sub_obj,k,v)
-        
+        #6=>Assign new subs and update subscriptions
+        user_sub_obj.sub = sub_obj
+        user_sub_obj.stripe_id = sub_stripe_id
+        user_sub_obj.user_cancelled = False
+        user_sub_obj.current_period_start = current_period_start  # ← ADD THIS
+        user_sub_obj.current_period_end = current_period_end      # ← ADD THIS
+     
+        user_sub_obj.save()
+
+        #for k,v in updated_sub_options:
+       #        setattr(user_sub_obj,k,v)
+            
+  
         user_sub_obj.save()
 
     return render(request, 'checkoutsuccess.html', {})

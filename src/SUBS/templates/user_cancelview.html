@@ -1,0 +1,20 @@
+{%block content %}
+
+{%if mysubscription.is_activestatus%}
+
+<P>Are you sure you want to cancel ? Plan Name {{mysubscription.plan_name}}</P>
+
+<form action="" method="POST">
+
+{%csrf_token%}
+<button type="submit">
+    Yes
+</button>
+</form>
+<a href="mysubscription.cancel_url"> No go back</a>
+{%else%}
+<h1>
+    You do not have an active membership,homie
+</h1>
+{% endif %}
+{% endblock content %}

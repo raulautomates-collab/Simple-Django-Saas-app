@@ -1,6 +1,6 @@
 from typing import Any
 from django.core.management.base import BaseCommand
-from SUBSCRIPTIONS.models import Subscription
+from SUBS.models import Subscription
 
 class Command(BaseCommand):#basic hello world function
     
@@ -12,6 +12,9 @@ class Command(BaseCommand):#basic hello world function
                 for perm in sub.permissions.all():
                     group.permissions.set(sub_perms)
         print('Homie ,you trippin,gay ass motherfuc**er')
+
+
+        
 
 # Find students enrolled in both courses
 math_students = {"Alice", "Bob", "Charlie", "David"}

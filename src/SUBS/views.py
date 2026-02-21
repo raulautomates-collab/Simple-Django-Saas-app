@@ -3,6 +3,7 @@ from django.urls import reverse
 from cfehome.urls import product_price_redirect_view
 from django.contrib.auth.decorators import login_required
 from helpers import billing
+from django.contrib import messages
 
 from .models import *
 
@@ -37,21 +38,55 @@ def subview(request,pricing_interval="month"):
 
 @login_required
 def user_subscription_view(request):
-     #1->Grab subscription aaaand user objects
      user_sub_obj,created=MyUserSubscription.objects.get_or_create(user=request.user)
-     sub_data=user_sub_obj.serialize()
-     #2->Refresh Subscriptions status
-     if request.method=='POST':
-          print('Refresh Homie')
-     #3->Store subscription status for the users            
+     #Create a checkout page if they don't have one
+     sub_data=user_sub_obj.serialize() #For Django rest framework apis
+     if request.method=="POST":
+          
           if user_sub_obj.stripe_id:
-               sub_data=billing.get_subscription(user_sub_obj.stripe_id,raw=False)
+               sub_data=billing.get_subscription(user_sub_obj.stripe_id,raw=False)  
                for k,v in sub_data.items():
                     setattr(user_sub_obj,k,v)
-     
-          return redirect(user_sub_obj.get_absolute_url())
+               user_sub_obj.save()
+               messages.success(request,'You have subscribed pip squeak')
+     #redirect after form submission
+          return redirect(user_sub_obj.get_absolute_url())           
      context={
-          'subscription':user_sub_obj
-     }
-
+          'mysubscription':user_sub_obj
+     }        
      return render(request,'user_detailview.html',context)
+
+
+@login_required
+def user_subscription_cancel_view(request):
+
+     user_sub_obj,created=MyUserSubscription.objects.get_or_create(user=request.user)
+     #Create a checkout page if they don't have one
+     sub_data=user_sub_obj.serialize() #For Django rest framework apis
+     if request.method=="POST":
+          
+          if user_sub_obj.stripe_id and user_sub_obj.is_activestatus: #only cancel an active subscription
+               sub_data=billing.cancel_subscription(
+                    user_sub_obj.stripe_id,
+                    reason="The subscription was a piece of shite",
+                    raw=False,
+                    feedback='other',
+               
+               )
+                                                    
+          #for ease of reausability                                          
+               for k,v in sub_data.items():
+                    setattr(user_sub_obj,k,v)
+               user_sub_obj.save()   
+               messages.success(request,'Your Plan Has been cancelled')  
+
+     #redirect after form submission
+          return redirect(user_sub_obj.get_absolute_url())     
+           
+     context={
+          'mysubscription':user_sub_obj
+     }        
+     
+
+     return render(request,'user_cancelview.html',context)
+

@@ -101,13 +101,14 @@ def serialize_subscription_data(subscription_response):
     
     current_period_start=date_utils.timestamp_as_datetime(subscription_response["items"]["data"][0]["current_period_start"])
 
-    
+    cancel_at_period_end=subscription_response.cancel_at_period_end
     current_period_end=date_utils.timestamp_as_datetime(subscription_response["items"]["data"][0]["current_period_end"])
 
     return {
         'current_period_start':current_period_start,
         'current_period_end':current_period_end,
-        'status':status
+        'status':status,
+        'cancel_at_period_end':cancel_at_period_end
     }
                 
 #correlating the subscriptions from stripe with the user subscriprion model
@@ -122,8 +123,8 @@ def get_subscription_plan(session_id):
     subscription_data=serialize_subscription_data(sub_r)
     
     current_period_start=date_utils.timestamp_as_datetime(sub_r["items"]["data"][0]["current_period_start"])
+ 
 
-    
     current_period_end=date_utils.timestamp_as_datetime(sub_r["items"]["data"][0]["current_period_end"])
     print(f'The current period start is {current_period_start}')
 
@@ -132,20 +133,40 @@ def get_subscription_plan(session_id):
         'customer_id':customer_id,
         'plan_id':sub_plan.id,
         'sub_stripe_id':sub_stripe_id,
-        **subscription_data
+        'current_period_start':current_period_start,
+        'current_period_end':current_period_end
+        
     }
     
     return data
 
 
-def cancel_subscriprtion(stripe_id,reason="",feedback='other',raw=True):
-    response=stripe.Subscription.cancel(stripe_id,
-                                        cancellation_details={
-                                            'comment':reason,
-                                            'feedback':feedback
-                                        }
-                                        )
-    
+
+
+def cancel_subscription(stripe_id,reason="",cancel_at_period_end=False,feedback="other",raw=True):
+    if cancel_at_period_end:
+
+        #Cancel dnagling user subs
+        response=stripe.Subscription.cancel(
+        stripe_id,
+        cancel_at_period_end=cancel_at_period_end,  
+        cancellation_details={
+            'comment':reason,
+            'feedback':feedback
+        }
+    )
+    else:
+        response=stripe.Subscription.cancel(
+        stripe_id,
+        cancellation_details={
+            'comment':reason,
+            'feedback':feedback
+        }
+    )
+
+
     if raw:
         return response
-    return (response.url)
+    return serialize_subscription_data(response)
+
+
