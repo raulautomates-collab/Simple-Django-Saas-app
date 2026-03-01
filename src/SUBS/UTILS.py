@@ -14,34 +14,17 @@ from django.db.models import Q
 def refresh_user_subs(user_ids=None,active_only=True):
     
     #Refresh for more than one user
-    #Triggers the ave method if things change
+    #Triggers the save method if things change
 
     active_qs_lookup=(
          Q(status=SubscriptionStatus.ACTIVE),
          Q(status=SubscriptionStatus.TRIALING)
     )
     qs=MyUserSubscription.objects.all()
-
     if active_only:
-         qs=qs.by_active_trialing()
-    #OPTION2
-    #active_qs=qs.filter(status=SubscriptionStatus.ACTIVE)
-    #trialing_qs=qs.filter(status=SubscriptionStatus.TRIALING)
-
-    #final_qs=(trialing_qs|active_qs)
+       qs=qs.by_active_trialing()
     if user_ids is not None:
          qs=qs.by_user_ids(user_ids=user_ids)
-
-    if isinstance(user_ids,list):
-         qs=qs.filter(user_id__in=user_ids)
-    elif isinstance(user_ids,int):
-         qs=qs.filter(user_id__in=[user_ids])
-
-    elif isinstance(user_ids,str):
-         qs=qs.filter(user_id__in=[user_ids])
-
-
-    #Verify refreshed user_subs
     complete_count=0     
     qs_count=qs.count()
 

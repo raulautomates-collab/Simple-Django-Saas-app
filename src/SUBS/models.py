@@ -1,5 +1,6 @@
 from django.db import models
-
+import datetime
+from django.utils import timezone
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import Group,Permission
@@ -11,21 +12,19 @@ from django.db.models import Q
 
 #Custom Model managers for  Q lookups
 
-class UserSubscriptionQueryset(models.QuerySet):
+class MyUserSubscriptionQueryset(models.QuerySet):
 
-
-    #Model Managers
     def by_active_trialing(self):
-         active_qs_lookup=(
-         Q(status=SubscriptionStatus.ACTIVE),
-         Q(status=SubscriptionStatus.TRIALING)
-    )
-         return self.filter(active_qs_lookup)
-    
+         
+        active_qs_lookup=(
+            Q(status=SubscriptionStatus.ACTIVE),
+            Q(status=SubscriptionStatus.TRIALING)
+        )
+        return self.filter(active_qs_lookup)
     def byuser_ids(self,user_ids=None):
         qs=self
         if isinstance(user_ids,list):
-            qs=self.filter(user_id__in=user_ids)
+           return self.filter(user_id__in=user_ids)
         elif isinstance(user_ids,int):
             qs=self.filter(user_id__in=[user_ids])
 
@@ -34,17 +33,24 @@ class UserSubscriptionQueryset(models.QuerySet):
         return qs
    
 
-class UserSubscriptionManager(models.Manager):
+class MyUserSubscriptionManager(models.Manager):
      
     def get_queryset(self):
-         return UserSubscriptionQueryset(self.model,using=self._db)
+         return MyUserSubscriptionQueryset(self.model,using=self._db)
     
-    #def by_user_ids(self,user_ids=None):
-    #     return self.get_queryset().byuser_ids(user_ids=user_ids)
+    def by_user_ids(self,user_ids=None):
+         return self.get_queryset().byuser_ids(user_ids=user_ids)
 
 
+class MyUserSubscriptonQuerySet():
+     def by_days_left(self,days_left=7):
+        now=timezone.now()
+        in_n_days=datetime.timedelta(days=days_left)
+        in_n_days_min=in_n_days.replace(hour=0,minute=0,second=0,microsecond=0)
+        in_n_days_max=in_n_days.replace(hour=23,minute=59,second=59,microsecond=59)
 
 
+        
 MyUser = settings.AUTH_USER_MODEL
 ALLOW_CUSTOM_GROUPS=True
 # Create your models here.
@@ -142,7 +148,18 @@ class MyUserSubscription(models.Model):
     cancel_at_period_end=models.BooleanField(default=False)
 
 
-    
+    class MyUserSubscriptonQuerySet():
+     def by_days_left(self,days_left=7):
+        now=timezone.now()
+        in_n_days=datetime.timedelta(days=days_left)
+        in_n_days_min=in_n_days.replace(hour=0,minute=0,second=0,microsecond=0)
+        in_n_days_max=in_n_days.replace(hour=23,minute=59,second=59,microsecond=59)
+
+
+        return self.filter(
+            
+        )
+
    #1:OPTIONAL delay to start new subscription in checkout
    #https://docs.stripe.com/payments/checkout/billing-cycle
     @property
