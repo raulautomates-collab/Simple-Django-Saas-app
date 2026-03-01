@@ -7,6 +7,43 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from helpers import billing
 from django.urls import reverse
+from django.db.models import Q
+
+#Custom Model managers for  Q lookups
+
+class UserSubscriptionQueryset(models.QuerySet):
+
+
+    #Model Managers
+    def by_active_trialing(self):
+         active_qs_lookup=(
+         Q(status=SubscriptionStatus.ACTIVE),
+         Q(status=SubscriptionStatus.TRIALING)
+    )
+         return self.filter(active_qs_lookup)
+    
+    def byuser_ids(self,user_ids=None):
+        qs=self
+        if isinstance(user_ids,list):
+            qs=self.filter(user_id__in=user_ids)
+        elif isinstance(user_ids,int):
+            qs=self.filter(user_id__in=[user_ids])
+
+        elif isinstance(user_ids,str):
+            qs=self.filter(user_id__in=[user_ids])
+        return qs
+   
+
+class UserSubscriptionManager(models.Manager):
+     
+    def get_queryset(self):
+         return UserSubscriptionQueryset(self.model,using=self._db)
+    
+    #def by_user_ids(self,user_ids=None):
+    #     return self.get_queryset().byuser_ids(user_ids=user_ids)
+
+
+
 
 MyUser = settings.AUTH_USER_MODEL
 ALLOW_CUSTOM_GROUPS=True
@@ -17,7 +54,7 @@ PERMISSIONS=[
         ('advanced','Advanced Perm'),
         ('Enterprise','Enterprise Perm'),
     ]
-
+#
  
 
 class SubscriptionStatus(models.TextChoices):
@@ -104,6 +141,8 @@ class MyUserSubscription(models.Model):
     status=models.CharField(choices=SubscriptionStatus.choices,max_length=20,blank=True,null=True)
     cancel_at_period_end=models.BooleanField(default=False)
 
+
+    
    #1:OPTIONAL delay to start new subscription in checkout
    #https://docs.stripe.com/payments/checkout/billing-cycle
     @property

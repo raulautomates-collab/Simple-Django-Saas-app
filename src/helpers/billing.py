@@ -95,6 +95,20 @@ def get_subscription(stripe_id,raw=True):
         return response
     return serialize_subscription_data(response)
 
+
+#1->List user active subscriptions
+#->Remove dangling subscriptions
+def get_customeractive_subscription(customer_stripe_id):
+    response=stripe.Subscription.list(
+        customer=customer_stripe_id,
+        status='active',
+        )
+    
+
+        
+    return (response)
+
+
 #serialize sub data
 def serialize_subscription_data(subscription_response):
     status=subscription_response.status
@@ -146,8 +160,8 @@ def get_subscription_plan(session_id):
 def cancel_subscription(stripe_id,reason="",cancel_at_period_end=False,feedback="other",raw=True):
     if cancel_at_period_end:
 
-        #Cancel dnagling user subs
-        response=stripe.Subscription.cancel(
+        #Cancel dangling user subs at period end
+        response=stripe.Subscription.modify(
         stripe_id,
         cancel_at_period_end=cancel_at_period_end,  
         cancellation_details={

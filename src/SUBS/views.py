@@ -5,7 +5,8 @@ from django.contrib.auth.decorators import login_required
 from helpers import billing
 from django.contrib import messages
 
-from .models import *
+from .models import Subscription,SubscriptionPrice,MyUserSubscription
+from SUBS import UTILS
 
 
 # Create your views here.
@@ -42,13 +43,13 @@ def user_subscription_view(request):
      #Create a checkout page if they don't have one
      sub_data=user_sub_obj.serialize() #For Django rest framework apis
      if request.method=="POST":
+     #Refresh active user subscriptions
+          finished=UTILS.refresh_user_subs(user_ids=request.user.id,active_only=False)    
+          if finished:
+               messages.success(request,'Your Plan Details have been succesfully updated ')
+          else:
+               messages.error(request,'Your Plan details have not been refreshed,Please try again')     
           
-          if user_sub_obj.stripe_id:
-               sub_data=billing.get_subscription(user_sub_obj.stripe_id,raw=False)  
-               for k,v in sub_data.items():
-                    setattr(user_sub_obj,k,v)
-               user_sub_obj.save()
-               messages.success(request,'You have subscribed pip squeak')
      #redirect after form submission
           return redirect(user_sub_obj.get_absolute_url())           
      context={
@@ -71,6 +72,7 @@ def user_subscription_cancel_view(request):
                     reason="The subscription was a piece of shite",
                     raw=False,
                     feedback='other',
+                    cancel_at_period_end=True
                
                )
                                                     
