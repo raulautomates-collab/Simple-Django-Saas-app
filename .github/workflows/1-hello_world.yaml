@@ -1,0 +1,13 @@
+name: 1-Hello-Darkness Github actions
+
+on: #workflow triggering 
+ push: #git push
+  brancn:
+  - main
+
+jobs:
+ hello:
+  runs-on: ubuntu-latest
+  steps:
+  - name: Hello Baby
+    run: echo "hello"  
