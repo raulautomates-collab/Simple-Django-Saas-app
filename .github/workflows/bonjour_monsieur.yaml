@@ -1,0 +1,14 @@
+name: 1 - Bonjour Monsieur Github actions
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  Bonjour_Monsieur:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hello there
+        run: echo "Bonjour Monsieur"
+
