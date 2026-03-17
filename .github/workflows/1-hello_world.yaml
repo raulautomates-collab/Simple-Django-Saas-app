@@ -1,16 +1,12 @@
 name: 1-Hello-Darkness Github actions
 
 on: #workflow triggering 
- workflow-dispatch:
- #schedule:
-  #- cron: '30 15 * * *'
-  # push: #git push
- # brancn:
-  #- main
+  push:
+   branch:
+    - main
 
 jobs:
- hello:
-  runs-on: ubuntu-latest
+ Baby:
   steps:
-  - name: Hello Baby
-    run: echo "hello"  
+   - name: Baby Baby would you go ahead and just cry!,cry...
+     run: echo "Hello Baby NO"
