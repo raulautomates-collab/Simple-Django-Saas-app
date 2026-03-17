@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from helpers import billing
 from django.contrib import messages
 
-from .models import Subscription,SubscriptionPrice,MyUserSubscription
+from .models import Subscription,SubscriptionPrice,MyUserSubscription,UserSubscriptionQueryset
 from SUBS import UTILS
 
 
@@ -43,15 +43,14 @@ def user_subscription_view(request):
      #Create a checkout page if they don't have one
      sub_data=user_sub_obj.serialize() #For Django rest framework apis
      if request.method=="POST":
-     #Refresh active user subscriptions
-          finished=UTILS.refresh_user_subs(user_ids=request.user.id,active_only=False)    
-          if finished:
-               messages.success(request,'Your Plan Details have been succesfully updated ')
+          print('refresh subscription')
+          refreshed=UTILS.refresh_active_user_subscriptons(user_ids=request.user.id)  
+          print(refreshed)
+          if refreshed:
+               messages.success(request,'Your plan details are succesful')
           else:
-               messages.error(request,'Your Plan details have not been refreshed,Please try again')     
-          
-     #redirect after form submission
-          return redirect(user_sub_obj.get_absolute_url())           
+               messages.success(request,'Your plan details have not been refreshed,try again',request='POST')   
+          return redirect(user_sub_obj.get_absolute_url())        
      context={
           'mysubscription':user_sub_obj
      }        

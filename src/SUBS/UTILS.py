@@ -2,72 +2,79 @@
 from typing import Any
 
 
-from SUBS.models import MyUserSubscription,Subscription,SubscriptionStatus
+from SUBS.models import MyUserSubscription,Subscription,SubscriptionStatus,UserSubscriptionQueryset
 from helpers import billing
 from PROSPECTS.models import Customer
 from django.db.models import Q
 
 
+#1->Subscriptio refresh utility function
 
-#Refresh subscription utility function
-
-def refresh_user_subs(user_ids=None,active_only=True):
+def refresh_active_user_subscriptons(user_ids=None):
+    # Use __in lookup for cleaner code
+    qs = MyUserSubscription.objects.filter(
     
-    #Refresh for more than one user
-    #Triggers the save method if things change
+# Option 1: Combine Q objects with OR operator (|)
+# active_qs_lookup = (
+#     Q(status=SubscriptionStatus.ACTIVE) | 
+#     Q(status=SubscriptionStatus.TRIALING)
+# )
+# qs=MyUserSubscription.objects.filter(active_qs_lookup)
 
-    active_qs_lookup=(
-         Q(status=SubscriptionStatus.ACTIVE),
-         Q(status=SubscriptionStatus.TRIALING)
+# Option 2: Unpack tuple of Q objects with *
+# active_qs_lookup=(
+#     Q(status=SubscriptionStatus.ACTIVE),
+#     Q(status=SubscriptionStatus.TRIALING)
+# )
+# qs=MyUserSubscription.objects.filter(*active_qs_lookup)
+   
+        status__in=[SubscriptionStatus.ACTIVE, SubscriptionStatus.TRIALING]
     )
-    qs=MyUserSubscription.objects.all()
-    if active_only:
-       qs=qs.by_active_trialing()
-    if user_ids is not None:
-         qs=qs.by_user_ids(user_ids=user_ids)
-    complete_count=0     
-    qs_count=qs.count()
+    
 
-    for obj in qs:
 
-        
+
+    # Filter by user IDs
+    if isinstance(user_ids, list):
+        qs = qs.filter(user_id__in=user_ids)
+    elif isinstance(user_ids, (int, str)):
+        qs = qs.filter(user_id__in=[user_ids])
+
+    complete_count = 0
+    qs_count = qs.count()
+    print(qs_count)
+    
+    for obj in qs: 
         if obj.stripe_id:
-                sub_data=billing.get_subscription(obj.stripe_id,raw=False)  
-                for k,v in sub_data.items():
-                        setattr(obj,k,v)
-                obj.save()
-        complete_count+=1
-    return complete_count==qs_count          
+            sub_data = billing.get_subscription(obj.stripe_id, raw=False)
+            for k, v in sub_data.items():  # ← Added ()
+                setattr(obj, k, v)  # ← Fixed argument order
+            obj.save() 
+            complete_count += 1
+
+    return complete_count == qs_count
+
+def cleardanglingsubs():
+        qs=Customer.objects.filter(stripe_id__isnull=False)
+        for customer_obj in qs:
+            user=customer_obj.user
+            customer_stripe_id=customer_obj.stripe_id
+            mycurrent_subs=billing.get_customeractive_subscription(customer_stripe_id)
+
+            print(f"The customer id is {customer_stripe_id} ,the user is {user}")
+            for sub in mycurrent_subs:
+                existing_user_subs_qs=MyUserSubscription.objects.filter(stripe_id__iexact=f'{sub.id}'.strip())
+                if existing_user_subs_qs.exists:
+                    continue
+                billing.cancel_subscription(sub.id,reason='dangling subscription',cancel_at_period_end=False)
+                
+                print(f'The user subs are listed below: The ids are{sub.id} .The dangling subs are {existing_user_subs_qs}')
                 
 
 
-def cleardanglingsubs():
-    qs=Customer.objects.filter(stripe_id__isnull=False)
-    for customer_obj in qs:
-            user=customer_obj.user
-            customer_stripe_id=customer_obj.stripe_id
-            print(f"sync {user} with stripe id {customer_stripe_id} subs and remove their old ones")
-            #Get all available user subs and list them
-            user_subs=billing.get_customeractive_subscription(customer_stripe_id)
-            for user_sub in user_subs:
-             #Filter the existing stripe id
-             existing_user_subs_qs=MyUserSubscription.objects.filter(stripe_id__iexact=f"{user_sub.id}".strip())
-             print(user_sub.id)
-             #Avoid cancelling active subscription
-             if existing_user_subs_qs.exists:
-                continue
-             billing.cancel_subscription(user_sub.id,reason="Dangling usr subscription",cancel_at_period_end=True)
-             #CANCEL AT PERIOD END CAN BE FALSE
-             print(user_sub.id,existing_user_subs_qs.exists())
-
-def syncsub_groups_perms():
-    #1->Sync all permissions
-        
-    qs=Subscription.objects.filter(isactive=True)
-    for obj in qs:
-        sub_perms=obj.permissions.all()
-        for group in obj.groups.all():
-          group.permissions.set(sub_perms)
-          #for per in obj.permissions.all()
-          # group.permissions.add(per)
-          #print(obj.permissions.all())
+def syncsubs_groups_perms():
+     qs=Subscription.objects.filter(isactive=True)
+     for obj in qs:
+          sub_perms=obj.permissions.all()
+          for groups in obj.groups.all():
+               groups.permissions.set(sub_perms)

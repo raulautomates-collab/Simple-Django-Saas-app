@@ -1,9 +1,12 @@
 name: 1-Hello-Darkness Github actions
 
 on: #workflow triggering 
- push: #git push
-  brancn:
-  - main
+ workflow-dispatch:
+ #schedule:
+  #- cron: '30 15 * * *'
+  # push: #git push
+ # brancn:
+  #- main
 
 jobs:
  hello:

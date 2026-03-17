@@ -5,7 +5,8 @@ from SUBS import UTILS
 
 
 
+
 #!->Dajngo core management commands
 def handle(self, *args, **options):
         #1->Grab all existing user subscription
-        UTILS.syncsub_groups_perms()
+        UTILS.syncsubs_groups_perms()
