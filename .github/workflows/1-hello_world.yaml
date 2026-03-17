@@ -1,6 +1,7 @@
 name: 1-Hello-Darkness Github actions
 
 on: #workflow triggering 
+  workflow-dispatch:
   push:
    branch:
     - main
