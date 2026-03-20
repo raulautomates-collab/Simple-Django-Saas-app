@@ -1,7 +1,7 @@
 name: 2-Test Django Environment Variables
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -9,6 +9,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+         #  DJANGO_SECRET_KEY: insecure ass bitch
+           DJANGO_DEBUG: False
+        run: python manage.py test
+    #LLOW the steps to have access to the environment variables
+    #place the environment vars before steps   
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -16,12 +22,13 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version: '3.12'
+          #auto genertate django secret key
+      - name: Setup django secret key
+        run: |
+           my_gen_key=$(openssl rand -base64 32)
+           echo "DJANGO_SECRET_KEY=$my_gen_key" >> $GITHUB_ENV
       - name: Install requirements
         run: pip install -r requirements.txt
       - name: Run Django tests
         working-directory: ./src
-        env:
-           DJANGO_SECRET_KEY: insecure ass bitch
-           DJANGO_DEBUG: False
-        run: python manage.py test
-       
+        

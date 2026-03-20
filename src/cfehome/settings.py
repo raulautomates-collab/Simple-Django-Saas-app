@@ -44,7 +44,7 @@ SECRET_KEY = str(os.environ.get('DJANGO_SECRET_KEY'))
 # Default (no need to add this unless customizing)
 AUTH_USER_MODEL = 'auth.User'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG =  str(os.environ.get('DJANGO_DEBUG'))
 BASE_URL=os.environ.get('BASE_URL',default=None)
 ALLOWED_HOSTS = ['.railway.app']
 if DEBUG:
