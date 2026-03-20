@@ -1,0 +1,27 @@
+name: 2-Test Django Environment Variables
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install requirements
+        run: pip install -r requirements.txt
+      - name: Run Django tests
+        working-directory: ./src
+        env:
+           DJANGO_SECRET_KEY: insecure ass bitch
+           DJANGO_DEBUG: False
+        run: python manage.py test
+       
