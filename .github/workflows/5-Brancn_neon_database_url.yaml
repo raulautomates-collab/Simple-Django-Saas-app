@@ -1,0 +1,57 @@
+ame: 5_Branch Neon Database_url for tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+         #  DJANGO_SECRET_KEY: insecure ass bitch
+           DJANGO_DEBUG: False
+          # DATABASE_URL: ${{secrets.NEON_DATABASE_URL}}
+           NEON_API_KEY: ${{secrets.NEON_API_KEY}}
+           NEON_PROJECT_ID: ${{secrets.PROJECT_ID}}
+           NEON_GITHUB_BRANCH: "GH_DELETE"
+           NEON_PROD_BRANCH: main
+        run: python manage.py test
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          
+      - name: Setup Node.js for branching
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+      - name: install neon cli
+        run: npm install -neon -g neonctl
+      - name: Delete Previous branch
+        continue-on-error: true
+        run: |
+           neonctl branches delete "${{env.NEON_GITHUB_BRANCH}}" -project--id $'{{env.NEON_PROJECT_ID}}'
+      - name: Create new Github actions branch
+       
+        run: |
+           neonctl branches create --name "${{env.NEON_GITHUB_BRANCH}}" --parent  --project-id $'{{env.NEON_PROJECT_ID}}'
+      - name: Database Url Env for new Github actions Branch   
+        run:  |
+           MY_CONN_STRING=$(neonctl connection-string --branch "${{env.NEON_GITHUB_BRANCH}}"  --project-id $'{{env.NEON_PROJECT_ID}}')
+           echo "DATABASE_URL=$MY_CONN_STRING" >> $GITHUB_ENV
+      - name: Setup django secret key
+        run: |
+           my_gen_key=$(openssl rand -base64 32)
+           echo "DJANGO_SECRET_KEY=$my_gen_key" >> $GITHUB_ENV
+      
+      - name: Install requirements
+        run: pip install -r requirements.txt
+      - name: Run Django tests
+        working-directory: ./src
+        run: python manage.py test
