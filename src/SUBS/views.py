@@ -37,20 +37,22 @@ def subview(request,pricing_interval="month"):
     
     return render(request,'snippet.html',context)
 
+
 @login_required
 def user_subscription_view(request):
      user_sub_obj,created=MyUserSubscription.objects.get_or_create(user=request.user)
      #Create a checkout page if they don't have one
      sub_data=user_sub_obj.serialize() #For Django rest framework apis
      if request.method=="POST":
-          print('refresh subscription')
-          refreshed=UTILS.refresh_active_user_subscriptons(user_ids=request.user.id)  
-          print(refreshed)
-          if refreshed:
-               messages.success(request,'Your plan details are succesful')
-          else:
-               messages.success(request,'Your plan details have not been refreshed,try again',request='POST')   
-          return redirect(user_sub_obj.get_absolute_url())        
+          
+          if user_sub_obj.stripe_id:
+               sub_data=billing.get_subscription(user_sub_obj.stripe_id,raw=False)  
+               for k,v in sub_data.items():
+                    setattr(user_sub_obj,k,v)
+               user_sub_obj.save()
+               messages.success(request,'You have subscribed pip squeak')
+     #redirect after form submission
+          return redirect(user_sub_obj.get_absolute_url())           
      context={
           'mysubscription':user_sub_obj
      }        
@@ -71,7 +73,6 @@ def user_subscription_cancel_view(request):
                     reason="The subscription was a piece of shite",
                     raw=False,
                     feedback='other',
-                    cancel_at_period_end=True
                
                )
                                                     
