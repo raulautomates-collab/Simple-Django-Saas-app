@@ -46,7 +46,7 @@ AUTH_USER_MODEL = 'auth.User'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG =  str(os.environ.get('DJANGO_DEBUG',default=False))
 BASE_URL=os.environ.get('BASE_URL',default=None)
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".railway.app"]
 if DEBUG:
     ALLOWED_HOSTS+=[
         '127.0.0.1',
