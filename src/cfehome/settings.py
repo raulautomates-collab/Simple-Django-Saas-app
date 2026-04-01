@@ -1,4 +1,5 @@
-
+from sys import stdout
+from typing import Any
 
 from pathlib import Path
 import os
@@ -45,6 +46,7 @@ SECRET_KEY = str(os.environ.get('DJANGO_SECRET_KEY'))
 AUTH_USER_MODEL = 'auth.User'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG =  str(os.environ.get('DJANGO_DEBUG',default=False))
+stdout.write(DEBUG)
 BASE_URL=os.environ.get('BASE_URL',default=None)
 ALLOWED_HOSTS = [".railway.app"]
 if DEBUG:

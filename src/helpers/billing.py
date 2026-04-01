@@ -13,6 +13,8 @@ load_dotenv()
 STRIPE_SECRET_KEY = str(os.environ.get('STRIPE_SECRET_KEY'))
 
 stripe.api_key = STRIPE_SECRET_KEY
+#if 'sk_test' in STRIPE_SECRET_KEY:
+ #   raise ValueError('The secret key must be a production ready key,Check your values and try again')
 
 def create_customer(name="", email="",metadata={} ,raw=False):
     #stripe customer object from stripe.com
